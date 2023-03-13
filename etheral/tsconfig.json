@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "esnext",
+    "sourceMap": false,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "strict": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "paths": {
+      "@api": ["./src/api"],
+      "@components": ["./src/components"],
+      "@contexts": ["./src/contexts"],
+      "@hooks": ["./src/hooks"],
+      "@pages": ["./src/pages"],
+      "@utils": ["./src/utils"]
+    }
+  },
+  "include": ["**/src/**/*.ts", "**/src/**/*.tsx"]
+}
