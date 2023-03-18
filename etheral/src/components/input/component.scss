@@ -5,7 +5,6 @@ input {
   background-color: v.$darker;
   border: 1px solid v.$darkish;
   border-radius: 10px;
-  // padding: 7px 14px;
   padding: 10px 15px;
   color: v.$lightest;
   cursor: text;
@@ -14,13 +13,11 @@ input {
 
   &.invert-color {
     background: v.$darkish;
-    // border: 1px solid v.$darker;
   }
 
   &:hover,
   &:active,
   &:focus {
-    // background-color: #222228;
     background-color: v.$dark-hover;
     outline: none;
   }

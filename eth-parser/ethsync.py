@@ -7,7 +7,7 @@ import sys
 import logging
 
 dbname = "index"
-startBlock = environ.get("START_BLOCK") or "2630073"
+startBlock = environ.get("START_BLOCK") or "2630083"
 confirmationBlocks = environ.get("CONFIRMATIONS_BLOCK") or "0"
 nodeUrl = "http://127.0.0.1:3002"
 pollingPeriod = environ.get("PERIOD") or "20"
