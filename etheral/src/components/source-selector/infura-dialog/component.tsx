@@ -10,7 +10,7 @@ type Props = {
 
 export const InfuraDialog = ({ open, onClose, onSubmit }: Props) => {
   const [infuraToken, setInfuraToken] = useState('')
-  
+
   const onSave = () => {
     onSubmit({
       infuraToken,
