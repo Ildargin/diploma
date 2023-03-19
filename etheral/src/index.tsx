@@ -2,7 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Footer, Navigation } from '@components'
-import { ChainDataProvider, ToastProvider, WalletProvider } from '@contexts'
+import { ChainDataProvider, ToastProvider, WalletProvider, Web3Provider } from '@contexts'
 import { Address, App, Block, Tx, Visualize } from '@pages'
 import './index.scss'
 
@@ -11,24 +11,26 @@ const root = createRoot(container)
 
 root.render(
   <StrictMode>
-    <ToastProvider>
-      <WalletProvider>
-        <ChainDataProvider>
-          <BrowserRouter>
-            <Navigation />
+    <Web3Provider>
+      <ToastProvider>
+        <WalletProvider>
+          <ChainDataProvider>
+            <BrowserRouter>
+              <Navigation />
 
-            <Routes>
-              <Route path="/address/:id" element={<Address />} />
-              <Route path="/tx/:id" element={<Tx />} />
-              <Route path="/block/:id" element={<Block />} />
-              <Route path="/visualize/:id" element={<Visualize />} />
-              <Route path="*" element={<App />} />
-            </Routes>
+              <Routes>
+                <Route path="/address/:id" element={<Address />} />
+                <Route path="/tx/:id" element={<Tx />} />
+                <Route path="/block/:id" element={<Block />} />
+                <Route path="/visualize/:id" element={<Visualize />} />
+                <Route path="*" element={<App />} />
+              </Routes>
 
-            <Footer />
-          </BrowserRouter>
-        </ChainDataProvider>
-      </WalletProvider>
-    </ToastProvider>
+              <Footer />
+            </BrowserRouter>
+          </ChainDataProvider>
+        </WalletProvider>
+      </ToastProvider>
+    </Web3Provider>
   </StrictMode>,
 )

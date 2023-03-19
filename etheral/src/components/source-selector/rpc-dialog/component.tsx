@@ -5,12 +5,12 @@ import './component.scss'
 type Props = {
   open: boolean
   onClose: () => void
-  onSubmit: (values: Record<string, unknown>) => void
+  onSubmit: (values: { rpcAddress: string; enableRichMode: boolean }) => void
 }
 
 export const RpcDialog = ({ open, onClose, onSubmit }: Props) => {
   const [enableRichMode, setEnableRichMode] = useState(false)
-  const [rpcAddress, setRpcAddress] = useState('')
+  const [rpcAddress, setRpcAddress] = useState('http://127.0.0.1:3002')
 
   const onSave = () => {
     onSubmit({

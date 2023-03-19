@@ -8,8 +8,10 @@ type Props = {
   onSubmit: (values: { token: string }) => void
 }
 
-export const InfuraDialog = ({ open, onClose, onSubmit }: Props) => {
-  const [token, setToken] = useState('https://sepolia.infura.io/v3/0d6970b0645847c9b3a651c4322a5ff1')
+export const AlchemyDialog = ({ open, onClose, onSubmit }: Props) => {
+  const [token, setToken] = useState(
+    'https://eth-goerli.g.alchemy.com/v2/amhTc8q9j-3DdYhEhZn79Qz1yZgp3Pyl',
+  )
 
   const onSave = () => {
     onSubmit({
@@ -21,7 +23,7 @@ export const InfuraDialog = ({ open, onClose, onSubmit }: Props) => {
       <Container className="selector-dialog">
         <div className="selector-dialog-container">
           <div className="selector-dialog-line">
-            <label htmlFor="infura-dialog-token">Infura API token:</label>
+            <label htmlFor="infura-dialog-token">Alchemy API token:</label>
             <Input
               value={token}
               onChange={(e) => setToken((e.target as HTMLInputElement).value)}
