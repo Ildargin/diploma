@@ -14,6 +14,7 @@ export default defineConfig({
   plugins: [react()],
   define: {
     global: {},
+    'process.env': {},
   },
   base: '/',
   test: {

@@ -1,29 +1,30 @@
 import { useEffect, useState } from 'react'
 import { Button, FlexBox, Select } from '@components'
-import { useWeb3 } from '@contexts'
+import { ProviderNames, useWeb3 } from '@contexts'
 import { AlchemyDialog } from './alchemy-dialog'
 import './component.scss'
 import { InfuraDialog } from './infura-dialog'
 import { RpcDialog } from './rpc-dialog'
 import { SettingsIcon } from './settings-icon'
 
-const options = ['Infura', 'JsonRPC server', 'Alchemy']
+const options: Record<ProviderNames, string> = {
+  infura: 'Infura',
+  rpc: 'JsonRPC server',
+  alchemy: 'Alchemy',
+}
 
 export const SourceSelector = () => {
   const [rpcDialogOpen, setRpcDialogOpen] = useState(false)
   const [infuraDialogOpen, setInfuraDialogOpen] = useState(false)
   const [alchemyDialogOpen, setAlchemyDialogOpen] = useState(false)
-  const [selectedOption, setSelectedOption] = useState(options[0])
-  const { addProvider } = useWeb3()
-  const isCustom = selectedOption === 'JsonRPC server'
-  const isInfura = selectedOption === 'Infura'
-  const isAlchemy = selectedOption === 'Alchemy'
+  const { addProvider, web3 } = useWeb3()
+  const [selectedOption, setSelectedOption] = useState(options[web3.active])
+  const isCustom = selectedOption == options.rpc
+  const isInfura = selectedOption == options.infura
+  const isAlchemy = selectedOption == options.alchemy
 
-  const onSelectedChange = (value: string) => {
-    const option = options.find((item) => item === value)
-    if (option) {
-      setSelectedOption(option)
-    }
+  const onSelectedChange = (fieldName: string) => {
+    setSelectedOption(fieldName)
   }
 
   const openDialog = () => {
@@ -58,7 +59,7 @@ export const SourceSelector = () => {
       <Button className="rpc-settings-icon" onClick={openDialog}>
         <SettingsIcon error={isCustom} />
       </Button>
-      <Select options={options} value={selectedOption} onChange={onSelectedChange} />
+      <Select options={Object.values(options)} value={selectedOption} onChange={onSelectedChange} />
       <RpcDialog open={rpcDialogOpen} onClose={() => setRpcDialogOpen(false)} onSubmit={onSubmit} />
       <InfuraDialog
         open={infuraDialogOpen}

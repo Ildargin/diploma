@@ -1,38 +1,34 @@
-import type { Transaction } from 'ethers'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { parseEther, trimAddress } from '@utils'
+import { useGetTransaction } from '@hooks'
+import { fromWei, trimAddress } from '@utils'
 import './component.scss'
 
-export const TxTooltip = ({ transaction }: { transaction: Transaction }) => {
-  const navigate = useNavigate()
+export const TxTooltip = ({ hash }: { hash: string }) => {
   const [isHovering, setHovering] = useState(false)
-
-  const value = parseEther(transaction.value)
+  const { data } = useGetTransaction(hash)
+  const navigate = useNavigate()
+  const value = data?.value ? Number(fromWei(data.value, 'ether')) : 0
 
   return (
     <li className="txbit-container">
       <div
         className="txbit-block"
-        onClick={() => navigate(`/tx/${transaction.hash}`)}
+        onClick={() => navigate(`/tx/${hash}`)}
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
         style={{ opacity: value + 0.05 }}
       />
-      {!isHovering || !transaction || !transaction.hash ? null : (
+      {!isHovering ? null : (
         <div className="txbit-tooltip">
           <div className="txbit-tooltip-top">
             <div>
               <span className="txbit-tooltip-field">From</span>
-              <div className="txbit-tooltip-value">
-                {transaction.from && trimAddress(transaction.from)}
-              </div>
+              <div className="txbit-tooltip-value">{data?.from && trimAddress(data.from)}</div>
             </div>
             <div>
               <span className="txbit-tooltip-field">To</span>
-              <div className="txbit-tooltip-value">
-                {transaction.to && trimAddress(transaction.to)}
-              </div>
+              <div className="txbit-tooltip-value">{data?.to && trimAddress(data.to)}</div>
             </div>
           </div>
           <div className="txbit-tooltip-bottom">

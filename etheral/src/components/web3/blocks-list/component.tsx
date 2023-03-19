@@ -1,11 +1,11 @@
 import { FlexBox, Skeleton } from '@components'
-import { useInfura } from '@contexts'
+import { useGetRecentBlocks } from '@hooks'
 import { BlockItem } from './block-item'
 
 export const Blocks = () => {
-  const { blocks, loadingInitial } = useInfura()
+  const { data, isLoading } = useGetRecentBlocks(5)
 
-  return loadingInitial ? (
+  return isLoading ? (
     <Skeleton
       count={5}
       width={250}
@@ -14,10 +14,9 @@ export const Blocks = () => {
     />
   ) : (
     <FlexBox direction="col">
-      {[...blocks.values()]
-        .sort((a, b) => b.number - a.number)
-        .slice(0, 5)
-        .map((block) => block && block.number && <BlockItem key={block.number} block={block} />)}
+      {data?.map((block) => (
+        <BlockItem key={block.number} block={block} />
+      ))}
     </FlexBox>
   )
 }

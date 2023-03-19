@@ -1,12 +1,11 @@
-import moment from 'moment'
 import { FlexBox, Skeleton } from '@components'
-import { useInfura } from '@contexts'
+import { useGetRecentTransactionsHashes } from '@hooks'
 import { TransactionItem } from './transaction-item'
 
 export const Transactions = () => {
-  const { loadingInitial, transactions } = useInfura()
+  const { data, isLoading } = useGetRecentTransactionsHashes(5)
 
-  return loadingInitial ? (
+  return isLoading ? (
     <Skeleton
       count={5}
       width={250}
@@ -15,14 +14,9 @@ export const Transactions = () => {
     />
   ) : (
     <FlexBox direction="col">
-      {[...transactions.values()]
-        .sort((a, b) => {
-          // eslint-disable-next-line import/no-named-as-default-member
-          return !b.timestamp || !a.timestamp ? moment.now() : a.timestamp - b.timestamp
-        })
-        .slice(1)
-        .slice(-5)
-        .map((tx) => tx && tx.hash && <TransactionItem key={tx.hash} tx={tx} />)}
+      {data?.map((hash) => (
+        <TransactionItem key={hash} tx={hash} />
+      ))}
     </FlexBox>
   )
 }

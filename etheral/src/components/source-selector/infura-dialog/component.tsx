@@ -9,7 +9,9 @@ type Props = {
 }
 
 export const InfuraDialog = ({ open, onClose, onSubmit }: Props) => {
-  const [token, setToken] = useState('https://sepolia.infura.io/v3/0d6970b0645847c9b3a651c4322a5ff1')
+  const [token, setToken] = useState(
+    'https://sepolia.infura.io/v3/0d6970b0645847c9b3a651c4322a5ff1',
+  )
 
   const onSave = () => {
     onSubmit({
