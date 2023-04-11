@@ -1,1 +1,1 @@
-geth --syncmode light --gcmode archive --sepolia --http --http.port 3002 --http.api "engine,net,eth,web3,miner,txpool" --ws --ws.port 3003 --ws.api "engine,net,eth,web3,miner,txpool"
+geth --syncmode light --gcmode archive --sepolia --http --http.port 3002 --http.corsdomain "*" --http.api "engine,net,eth,web3,miner,txpool" --ws --ws.port 3003 --ws.api "engine,net,eth,web3,miner,txpool"
