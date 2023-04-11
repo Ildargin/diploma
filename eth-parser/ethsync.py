@@ -7,11 +7,21 @@ import sys
 import logging
 
 dbname = "index"
-startBlock = environ.get("START_BLOCK") or "2630083"
-confirmationBlocks = environ.get("CONFIRMATIONS_BLOCK") or "0"
+startBlockFile = 'start_block.txt'
+confirmationBlocks = "0"
 nodeUrl = "http://127.0.0.1:3002"
-pollingPeriod = environ.get("PERIOD") or "20"
+pollingPeriod = "20"
 logFile = "C:\\Users\\User\\Desktop\\DIPLOMA\\eth-parser\\logs.log"
+
+try:
+    with open(startBlockFile, 'r') as f:
+        startBlock = f.read()
+        if not startBlock.isdigit():
+            raise ValueError('Invalid startBlock value')
+except (FileNotFoundError, ValueError):
+    startBlock = "2630083"
+    with open(startBlockFile, 'w') as f:
+        f.write(startBlock)
 
 if dbname == None:
     print('Add postgre database in env var DB_NAME')
@@ -42,8 +52,6 @@ else:
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 lfh.setFormatter(formatter)
 logger.addHandler(lfh)
-
-
 
 try:
     logger.info("Trying to connect to " + dbname + " database…")
@@ -119,11 +127,19 @@ while True:
 
     for blockHeight in range(maxblockindb + 1, endblock):
         block = web3.eth.getBlock(blockHeight, True)
+        infoMsg = None
         if len(block.transactions) > 0:
             insertTxsFromBlock(block)
-            logger.info('Block ' + str(blockHeight) + ' with ' + str(len(block.transactions)) + ' transactions is processed')
+            infoMsg = 'Block ' + str(blockHeight) + ' with ' + str(len(block.transactions)) + ' transactions is processed'
         else:
-            logger.info('Block ' + str(blockHeight) + ' does not contain transactions')
+            infoMsg ='Block ' + str(blockHeight) + ' does not contain transactions'
+        logger.info(infoMsg)
+        print(infoMsg)
+
+    # Write endBlock to file
+    with open(startBlockFile, 'w') as f:
+        f.write(str(endblock))
+    
     cur.close()
     conn.close()
     time.sleep(int(pollingPeriod))
