@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Button, FlexBox, Select } from '@components'
-import { ProviderNames, useWeb3 } from '@contexts'
+import { usePersistStorage, useWeb3 } from '@contexts'
+import type { ProviderNames } from '@contexts'
 import { AlchemyDialog } from './alchemy-dialog'
 import './component.scss'
 import { InfuraDialog } from './infura-dialog'
@@ -14,11 +15,14 @@ const options: Record<ProviderNames, string> = {
 }
 
 export const SourceSelector = () => {
+  const { storage, setRichMode } = usePersistStorage()
   const [rpcDialogOpen, setRpcDialogOpen] = useState(false)
   const [infuraDialogOpen, setInfuraDialogOpen] = useState(false)
   const [alchemyDialogOpen, setAlchemyDialogOpen] = useState(false)
   const { addProvider, web3 } = useWeb3()
   const [selectedOption, setSelectedOption] = useState(options[web3.active])
+  const richModeOff = storage.enableRichMode === false
+  console.log(richModeOff)
   const isCustom = selectedOption == options.rpc
   const isInfura = selectedOption == options.infura
   const isAlchemy = selectedOption == options.alchemy
@@ -39,7 +43,9 @@ export const SourceSelector = () => {
     }
   }
 
-  const onSubmit = (fields: { rpcAddress: string } | { token: string }) => {
+  const onSubmit = (
+    fields: { rpcAddress: string; enableRichMode: boolean } | { token: string },
+  ) => {
     if (infuraDialogOpen && 'token' in fields) {
       setInfuraDialogOpen(false)
       addProvider('infura', fields.token)
@@ -48,7 +54,8 @@ export const SourceSelector = () => {
       setInfuraDialogOpen(false)
       addProvider('alchemy', fields.token)
     }
-    if (rpcDialogOpen && 'rpcAddress' in fields) {
+    if (rpcDialogOpen && 'rpcAddress' in fields && 'enableRichMode' in fields ) {
+      setRichMode(fields.enableRichMode)
       setRpcDialogOpen(false)
       addProvider('rpc', fields.rpcAddress)
     }
@@ -57,10 +64,16 @@ export const SourceSelector = () => {
   return (
     <FlexBox justify="center" align="center">
       <Button className="rpc-settings-icon" onClick={openDialog}>
-        <SettingsIcon error={isCustom} />
+        <SettingsIcon error={isCustom && richModeOff} />
       </Button>
       <Select options={Object.values(options)} value={selectedOption} onChange={onSelectedChange} />
-      <RpcDialog open={rpcDialogOpen} onClose={() => setRpcDialogOpen(false)} onSubmit={onSubmit} />
+      <RpcDialog
+        enableRichMode={storage.enableRichMode}
+        onModeChange={setRichMode}
+        open={rpcDialogOpen}
+        onClose={() => setRpcDialogOpen(false)}
+        onSubmit={onSubmit}
+      />
       <InfuraDialog
         open={infuraDialogOpen}
         onClose={() => setInfuraDialogOpen(false)}

@@ -1,6 +1,6 @@
 import moment from 'moment'
 import { Link } from 'react-router-dom'
-import { BlockTransactionString } from 'web3-eth'
+import type { BlockTransactionString } from 'web3-eth'
 import { FlexBox } from '@components'
 import './component.scss'
 

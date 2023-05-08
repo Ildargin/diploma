@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react'
 import Web3 from 'web3'
-import { ProviderNames, Web3ContextType, Web3State } from './context.types'
+import type { ProviderNames, Web3ContextType, Web3State } from './context.types'
 
 const Web3Context = createContext<Web3ContextType>(undefined as unknown as Web3ContextType)
 export const useWeb3 = () => useContext<Web3ContextType>(Web3Context)

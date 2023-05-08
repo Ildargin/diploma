@@ -1,4 +1,4 @@
-import Web3 from 'web3'
+import type Web3 from 'web3'
 
 export type ProviderNames = 'infura' | 'rpc' | 'alchemy'
 

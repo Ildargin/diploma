@@ -4,12 +4,13 @@ import './component.scss'
 
 type Props = {
   open: boolean
+  enableRichMode: boolean
+  onModeChange: (v: boolean) => void
   onClose: () => void
   onSubmit: (values: { rpcAddress: string; enableRichMode: boolean }) => void
 }
 
-export const RpcDialog = ({ open, onClose, onSubmit }: Props) => {
-  const [enableRichMode, setEnableRichMode] = useState(false)
+export const RpcDialog = ({ open, onClose, onSubmit, enableRichMode, onModeChange }: Props) => {
   const [rpcAddress, setRpcAddress] = useState('http://127.0.0.1:3002')
 
   const onSave = () => {
@@ -36,7 +37,7 @@ export const RpcDialog = ({ open, onClose, onSubmit }: Props) => {
               Enable visulization tools - requires parsing and synchronization time
             </label>
             <div style={{ margin: '0 10px' }}>
-              <Checkbox checked={enableRichMode} onChange={(status) => setEnableRichMode(status)} />
+              <Checkbox checked={enableRichMode} onChange={onModeChange} />
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query'
-import { BlockTransactionString } from 'web3-eth'
+import type { BlockTransactionString } from 'web3-eth'
 import { useWeb3 } from '@contexts'
 
 export const useGetRecentBlocks = (count: number) => {

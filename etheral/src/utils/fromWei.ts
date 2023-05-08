@@ -1,5 +1,5 @@
 import { fromWei as fw } from 'web3-utils'
-import { Unit } from 'web3-utils/types'
+import type { Unit } from 'web3-utils/types'
 
 export const fromWei = (value: string, unit?: Unit, rounding?: number) => {
   const valTuple = fw(value, unit).split('.')
