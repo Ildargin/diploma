@@ -1,0 +1,43 @@
+@use "src/variables" as v;
+
+.connections {
+    width: 100%;
+    max-width: 800px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: v.$darkish;
+
+    &-params {
+        gap: 10px;
+
+        &-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 8px;
+        }
+    }
+
+    &-button-container {
+        position: relative;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+    }
+
+    &-buttons {
+        display: flex;
+        gap: 20px;
+    }
+}
+
+.search-loading {
+    position: absolute;
+    top: -18px;
+    left: 160px;
+    display: flex;
+    height: 10px;
+    display: flex;
+}

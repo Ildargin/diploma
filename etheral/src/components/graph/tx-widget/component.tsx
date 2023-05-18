@@ -16,6 +16,12 @@ export const TxWidget = ({ tx }: Props) => {
         <>
           <ul>
             <li>
+              <span>from: {tx.txfrom}</span>
+            </li>
+            <li>
+              <span>to: {tx.txto}</span>
+            </li>
+            <li>
               <span>value: {formatEther(tx.value)} eth</span>
             </li>
             <li>

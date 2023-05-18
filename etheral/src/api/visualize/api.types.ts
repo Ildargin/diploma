@@ -12,3 +12,10 @@ export type Tx = {
   status: boolean
   contract_value: string
 }
+
+export type SearchParams = {
+  address1: string
+  address2: string
+  maxDepth: number
+  nodeTrashnold: number
+}

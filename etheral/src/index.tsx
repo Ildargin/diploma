@@ -10,7 +10,7 @@ import {
   WalletProvider,
   Web3Provider,
 } from '@contexts'
-import { Address, App, Block, Tx, Visualize } from '@pages'
+import { Address, App, Block, Connections, Tx, Visualize } from '@pages'
 import './index.scss'
 
 const container = document.getElementById('app') as HTMLElement
@@ -27,15 +27,14 @@ root.render(
               <QueryClientProvider client={queryClient}>
                 <BrowserRouter>
                   <Navigation />
-
                   <Routes>
                     <Route path="/address/:id" element={<Address />} />
                     <Route path="/tx/:id" element={<Tx />} />
                     <Route path="/block/:id" element={<Block />} />
                     <Route path="/visualize/:id" element={<Visualize />} />
+                    <Route path="/connections/:id" element={<Connections />} />
                     <Route path="*" element={<App />} />
                   </Routes>
-
                   <Footer />
                 </BrowserRouter>
               </QueryClientProvider>

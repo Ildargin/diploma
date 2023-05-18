@@ -1,6 +1,6 @@
 import type { GraphData } from 'react-vis-graph-wrapper'
 import { trimAddress } from '@utils'
-import type { Tx } from './api.types'
+import type { SearchParams, Tx } from './api.types'
 
 //This is special API for graph visualization
 const ApiRoot = 'http://localhost:3033'
@@ -13,6 +13,22 @@ export const fetchTxsByUserId = async (id?: string): Promise<Tx[]> => {
 
 export const fetchTxById = async (id: number): Promise<Tx> => {
   const res = await fetch(`${ApiRoot}/tx?search=${id}`)
+  const data = await res.json()
+  return data
+}
+
+export const getPath = async (
+  params: SearchParams,
+  controller?: AbortController,
+): Promise<Array<Tx[]>> => {
+  const res = await fetch(`${ApiRoot}/txpath`, {
+    method: 'POST',
+    signal: controller?.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(params),
+  })
   const data = await res.json()
   return data
 }
@@ -42,13 +58,14 @@ const getNodeColorByHash = (hash: string, root?: string, lastClicked?: string) =
 }
 
 export const getGraphFromTxs = (txs: Tx[], root?: string, lastClicked?: string): GraphData => {
-  const nodes = getUniqueTxAddresses(txs).map((el) => ({
+  const uniqueTxs = getUniqueTxs(txs)
+  const nodes = getUniqueTxAddresses(uniqueTxs).map((el) => ({
     id: el,
     label: trimAddress(el, 2),
     color: getNodeColorByHash(el, root, lastClicked),
   }))
 
-  const edges = txs.map((node) => ({
+  const edges = uniqueTxs.map((node) => ({
     id: node.id,
     from: node.txfrom,
     to: node.txto,
@@ -59,6 +76,12 @@ export const getGraphFromTxs = (txs: Tx[], root?: string, lastClicked?: string):
 
 const getUniqueItemsById = <T extends { id?: number | string }>(arr1: T[], arr2: T[]): T[] => {
   return arr1.filter((node) => !arr2.some((node2) => node2.id === node.id)).concat(arr2)
+}
+
+export const getUniqueTxs = (arr: Tx[]) => {
+  return arr.filter((obj, index, self) => {
+    return index === self.findIndex((t) => t.id === obj.id)
+  })
 }
 
 export const concatGraphs = (g1: GraphData, g2: GraphData): GraphData => {

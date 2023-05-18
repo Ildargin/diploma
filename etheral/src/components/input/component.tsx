@@ -3,7 +3,7 @@ import { FlexBox } from '@components'
 import './component.scss'
 
 type Props = React.HTMLAttributes<HTMLInputElement> & {
-  type?: 'text' | 'password'
+  type?: 'text' | 'password' | 'number'
   value?: string
   invertColor?: boolean
 }

@@ -146,7 +146,8 @@ export const Address = () => {
           <>
             <Avatar address={address} diameter={24} />
             <span className="address-text">{address}</span>
-            <RedirectButton link={`/visualize/${id}`}>visualize</RedirectButton>
+            <RedirectButton link={`/visualize/${id}`} style={{marginRight: 10}}>visualize</RedirectButton>
+            <RedirectButton link={`/connections/${id}`}>find connections</RedirectButton>
           </>
         ) : (
           <>
